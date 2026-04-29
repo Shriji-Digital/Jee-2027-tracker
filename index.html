@@ -274,4 +274,159 @@ const StrategyGuide = () => {
                   <div className="flex items-center gap-4 flex-1">
                     <button 
                       onClick={(e) => markComplete(index, e)}
-                      className="
+                      className="focus:outline-none transition-transform hover:scale-110"
+                    >
+                      {isCompleted ? (
+                        <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+                      ) : (
+                        <Circle className="w-7 h-7 text-slate-500 group-hover:text-indigo-400" />
+                      )}
+                    </button>
+                    <div>
+                      <h3 className={`font-semibold text-lg ${isCompleted ? 'text-emerald-400 line-through opacity-70' : 'text-white'}`}>
+                        Step {index + 1}: {step.title}
+                      </h3>
+                      <p className="text-slate-400 text-sm hidden md:block">{step.shortDesc}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Icon className={`w-6 h-6 ${isCompleted ? 'text-emerald-500 opacity-50' : 'text-indigo-400'}`} />
+                    {isExpanded ? <ChevronUp className="w-5 h-5 text-slate-500" /> : <ChevronDown className="w-5 h-5 text-slate-500" />}
+                  </div>
+                </div>
+
+                {/* Step Content */}
+                {isExpanded && (
+                  <div className="px-4 pb-5 pt-2 ml-11 border-t border-slate-700 mt-2">
+                    <div className="text-slate-300 space-y-4">
+                      <p className="font-medium text-indigo-300">{step.directive}</p>
+                      <ul className="space-y-2">
+                        {step.details.map((detail, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm leading-relaxed">
+                            <span className="text-indigo-400 mt-1">•</span>
+                            <span>{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      {step.specialBox && (
+                        <div className="mt-4 bg-slate-900/50 p-4 rounded-lg border border-slate-700/50">
+                          <h4 className="text-sm font-semibold text-amber-400 mb-2">{step.specialBox.title}</h4>
+                          <p className="text-sm text-slate-400">{step.specialBox.content}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Motivation Footer */}
+        {activeProgress === 100 && (
+          <div className="mt-8 bg-emerald-900/40 border border-emerald-500/30 rounded-2xl p-6 text-center animate-pulse">
+            <h2 className="text-2xl font-bold text-emerald-400 mb-2">Chapter Successfully Reclaimed!</h2>
+            <p className="text-emerald-200">You've locked in {activeChapterData.name} for JEE Advanced 2027.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Data extracted from the research document
+const steps = [
+  {
+    title: "The Cold Diagnostic Test",
+    shortDesc: "Never start by reading the textbook.",
+    icon: Activity,
+    directive: "Take a 10-15 question PYQ test (JEE Main level) right now, without any prior revision.",
+    details: [
+      "Accept that forgetting is biological. Don't panic.",
+      "Resist the urge to read old notes. This creates a 'theory loop' and wastes time.",
+      "Attempt the test strictly under a timer."
+    ],
+    specialBox: {
+      title: "Score Analysis",
+      content: "Above 75%: Just review formulas. 30%-60%: Revise only the sub-topics you got wrong. Below 30%: You need a fast-tracked rebuild using condensed lectures/short notes."
+    }
+  },
+  {
+    title: "Reverse Revision (80/20 Rule)",
+    shortDesc: "Problem solving comes first.",
+    icon: Target,
+    directive: "Dedicate 80% of your time to active problem solving and only 20% to theory.",
+    details: [
+      "Pick a problem and try to construct the logic from latent memory.",
+      "Only go back and read theory if you are completely stuck on that specific problem.",
+      "If you fail to start a problem, read ONLY the exact sub-topic required for it, nothing more."
+    ]
+  },
+  {
+    title: "Visual Note Compression",
+    shortDesc: "Compress 50 pages into 2 pages.",
+    icon: PenTool,
+    directive: "Create hyper-dense 'Short Notes' while actively solving problems.",
+    details: [
+      "Do NOT blindly copy class notes. Spend max 2 minutes scanning a page of old notes.",
+      "Draw visual maps. E.g., put all Projectile Motion formulas onto a single drawing of a parabola.",
+      "Only create these notes AFTER you have struggled with PYQs, so you include exactly what you tend to forget."
+    ]
+  },
+  {
+    title: "Subject-Specific Tactics",
+    shortDesc: "Treat Physics, Chem, and Math differently.",
+    icon: BookOpen,
+    directive: "Apply the specific cognitive strategy required for the subject.",
+    details: [
+      "Physics: Focus purely on drawing accurate Free Body Diagrams (FBDs) and identifying sign convention traps.",
+      "Chemistry (Organic): Practice 'blind recall' of reaction mechanisms without looking at notes.",
+      "Chemistry (Inorganic): Use daily flashcards for exceptions to periodic trends.",
+      "Math: Scramble your practice (mix chapters) to build 'Tool Selection' skills."
+    ]
+  },
+  {
+    title: "Build the Mistake Log",
+    shortDesc: "Don't just nod at the printed solutions.",
+    icon: Brain,
+    directive: "Create a highly structured Error Notebook for every mistake made in practice.",
+    details: [
+      "Don't copy the whole question. That wastes time.",
+      "Log 4 things: Topic, Error Type (Silly, Concept, Reading), The Correct Logic, and an Actionable Takeaway.",
+      "Use the 3R Method: Reattempt the failed question after a few days -> Revise the concept if you fail again -> Reinforce with 5 similar questions."
+    ]
+  },
+  {
+    title: "x² Spaced Repetition",
+    shortDesc: "Defeat the forgetting curve permanently.",
+    icon: Clock,
+    directive: "Schedule the review of your new 2-page short notes using the x² formula.",
+    details: [
+      "Day 0: Today (you reclaimed the chapter).",
+      "Day 1 (1²): Review short notes tomorrow.",
+      "Day 4 (2²): Review again in 4 days.",
+      "Day 9 (3²): Review again in 9 days, then 16 days, then 25 days.",
+      "Use 'Mental Mapping' during these reviews: close your eyes and walk through the chapter structure mentally."
+    ]
+  },
+  {
+    title: "Manage Time & Sleep (60-30-10)",
+    shortDesc: "Balance Class 12 with Class 11 revision.",
+    icon: Calculator,
+    directive: "Organize your daily routine to accommodate revision without halting current progress.",
+    details: [
+      "60% Time: Current Class 12 topics.",
+      "30% Time: Revising forgotten Class 11 chapters using this checklist.",
+      "10% Time: Hard, out-of-the-box advanced questions.",
+      "CRITICAL: Get 6 to 8 hours of sleep. Memory consolidation only happens during deep sleep. Sacrificing sleep destroys your revision."
+    ]
+  }
+];
+
+import { createRoot } from 'react-dom/client';
+const root = createRoot(document.getElementById('root'));
+root.render(<StrategyGuide />);
+    </script>
+</body>
+</html>
